@@ -1,0 +1,40 @@
+# General OS and editor-specific files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+.idea/
+.vscode/
+*.iml
+
+# Go-specific files
+*.exe
+*.test
+*.out
+*.prof
+*.log
+*.so
+*.dll
+*.dylib
+*.a
+*.cgo/
+vendor/          # Skip vendor directory if you are not vendoring dependencies
+coverage.out     # Coverage profile file
+*.coverprofile   # Coverage profile files
+*.mod            # Go module files (if generated as build artifacts)
+*.sum            # Go checksum files (if generated as build artifacts)
+
+# Bazel-specific files
+bazel-*
+*.runfiles/
+*.runfiles_manifest
+*.runfiles_mappings
+bazel-bin/
+bazel-out/
+bazel-testlogs/
+bazel-genfiles/
+bazel-workspace/
+bazel-*          # Catch Bazel symlinks for output
