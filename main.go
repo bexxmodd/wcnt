@@ -1,11 +1,7 @@
 package main
 
-import (
-    "fmt"
-    "wcnt/cmd"
-)
+import "wcnt/cmd/root"
 
 func main() {
-    fmt.Println("Hello, Bazel! 💚")
-    cmd.Execute()
+    root.Execute()
 }
