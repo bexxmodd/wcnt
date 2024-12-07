@@ -71,9 +71,7 @@ func fullPath(rp string) (string, error) {
 		return "", err
 	}
 	
-	// Join pwd with relative path
 	fp := filepath.Join(pwd, rp)
-
 	fp = filepath.Clean(fp)
 	return fp, nil
 }
