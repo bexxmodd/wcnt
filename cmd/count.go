@@ -5,6 +5,7 @@ import (
 	"os"
 	"unicode/utf8"
 	"strings"
+	"path/filepath"
 )
 
 func CountBytes(p string) (int, error) {
@@ -45,11 +46,34 @@ func CountChars(p string) (int, error) {
 }
 
 func readFile(p string) (string, error) {
-	content, err := os.ReadFile(p)
+	fp, err := fullPath(p)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Can't determine full path: %s\n", fp)
+		return "", err
+	}
+	content, err := os.ReadFile(fp)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Can't read file: %s\n", p)
 		return "", err
 	}
 
 	return string(content), nil
+}
+
+func fullPath(rp string) (string, error) {
+    if filepath.IsAbs(rp) {
+        return rp, nil
+    }
+    
+	pwd, err := os.Getwd()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Can't get working directory.")
+		return "", err
+	}
+	
+	// Join pwd with relative path
+	fp := filepath.Join(pwd, rp)
+
+	fp = filepath.Clean(fp)
+	return fp, nil
 }
