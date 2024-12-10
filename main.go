@@ -1,6 +1,6 @@
 package main
 
-import "wcnt/cmd/root"
+import "cmd/root"
 
 func main() {
     root.Execute()

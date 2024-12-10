@@ -1,10 +1,10 @@
-package root
+package root 
 
 import (
 	"fmt"
 	"os"
-	"wcnt/cmd/count"
 
+	"github.com/bexxmodd/wcnt/blob/master/cmd/count"
 	"github.com/spf13/cobra"
 )
 
@@ -28,13 +28,13 @@ var (
 				counter = count.CountLines
 			case countWords:
 				counter = count.CountWords
-            case countChars:
-                counter = count.CountChars
+			case countChars:
+				counter = count.CountChars
 			default:
-                printAll(args)
-                return
+				printAll(args)
+				return
 			}
-            printCount(args, counter)
+			printCount(args, counter)
 		},
 	}
 )
@@ -53,24 +53,24 @@ func Execute() {
 }
 
 func printCount(paths []string, counter CounterFunc) {
-    for _, p := range paths {
-        cnt, err := counter(p)
-        if err != nil {
-            fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-            return
-        }
-        fmt.Printf("\t%d %s\n", cnt, p)
-    }
+	for _, p := range paths {
+		cnt, err := counter(p)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+			return
+		}
+		fmt.Printf("\t%d %s\n", cnt, p)
+	}
 }
 
 func printAll(paths []string) {
-    for _, p := range paths {
-        l, e2 := count.CountLines(p)
-        w, e3 := count.CountWords(p)
-        b, e1 := count.CountBytes(p)
-        if e1 != nil || e2 != nil || e3 != nil {
-            fmt.Fprint(os.Stderr, "Error when trying to count\n")
-        }
-        fmt.Printf("\t%d %d %d %s\n", l, w, b, p)
-    }
+	for _, p := range paths {
+		l, e2 := count.CountLines(p)
+		w, e3 := count.CountWords(p)
+		b, e1 := count.CountBytes(p)
+		if e1 != nil || e2 != nil || e3 != nil {
+			fmt.Fprint(os.Stderr, "Error when trying to count\n")
+		}
+		fmt.Printf("\t%d %d %d %s\n", l, w, b, p)
+	}
 }

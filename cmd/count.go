@@ -3,13 +3,15 @@ package count
 import (
 	"fmt"
 	"os"
-	"unicode/utf8"
-	"strings"
 	"path/filepath"
+	"strings"
+	"unicode/utf8"
 )
 
+var ReadFileFunc = ReadFile
+
 func CountBytes(p string) (int, error) {
-	t, err := readFile(p)
+	t, err := ReadFileFunc(p)
 	if err != nil {
 		return -1, err
 	}
@@ -18,7 +20,7 @@ func CountBytes(p string) (int, error) {
 }
 
 func CountLines(p string) (int, error) {
-	t, err := readFile(p)
+	t, err := ReadFileFunc(p)
 	if err != nil {
 		return -1, err
 	}
@@ -28,16 +30,16 @@ func CountLines(p string) (int, error) {
 }
 
 func CountWords(p string) (int, error) {
-	t, err := readFile(p)
+	t, err := ReadFileFunc(p)
 	if err != nil {
 		return -1, err
 	}
 
-    return len(strings.Fields(string(t))), nil
+	return len(strings.Fields(string(t))), nil
 }
 
 func CountChars(p string) (int, error) {
-	t, err := readFile(p)
+	t, err := ReadFileFunc(p)
 	if err != nil {
 		return -1, err
 	}
@@ -45,7 +47,7 @@ func CountChars(p string) (int, error) {
 	return utf8.RuneCountInString(string(t)), nil
 }
 
-func readFile(p string) (string, error) {
+func ReadFile(p string) (string, error) {
 	fp, err := fullPath(p)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Can't determine full path: %s\n", fp)
@@ -61,16 +63,16 @@ func readFile(p string) (string, error) {
 }
 
 func fullPath(rp string) (string, error) {
-    if filepath.IsAbs(rp) {
-        return rp, nil
-    }
-    
+	if filepath.IsAbs(rp) {
+		return rp, nil
+	}
+
 	pwd, err := os.Getwd()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Can't get working directory.")
 		return "", err
 	}
-	
+
 	fp := filepath.Join(pwd, rp)
 	fp = filepath.Clean(fp)
 	return fp, nil
