@@ -8,7 +8,7 @@ import (
 	"unicode/utf8"
 )
 
-var ReadFileFunc = ReadFile
+var ReadFileFunc = readFile
 
 func CountBytes(p string) (int, error) {
 	t, err := ReadFileFunc(p)
@@ -47,7 +47,7 @@ func CountChars(p string) (int, error) {
 	return utf8.RuneCountInString(string(t)), nil
 }
 
-func ReadFile(p string) (string, error) {
+func readFile(p string) (string, error) {
 	fp, err := fullPath(p)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Can't determine full path: %s\n", fp)

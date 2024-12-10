@@ -13,8 +13,8 @@ go_library(
 go_library(
     name = "count",
     srcs = ["count.go"],
-    visibility = ["//visibility:public"],
     importpath = "github.com/bexxmodd/wcnt/blob/master/cmd/count",
+    visibility = ["//visibility:public"],
     deps = [
         "@com_github_spf13_cobra//:cobra",
     ],
@@ -25,5 +25,5 @@ go_test(
     srcs = ["count_test.go"],
     deps = [
         ":count",
-    ]
+    ],
 )
