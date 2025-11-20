@@ -18,6 +18,8 @@ jobs:
 
       - name: 2. Extract Assignee from Nested OWNERS File
         env:
+          GH_TOKEN: ${{ github.token }}
+          OWNERS_FILE: config/team.yaml
           RELEASE_VERSION: ${{ github.event.release.tag_name }}
           ISSUE_BODY: |
             A new version has been released and we need to publish the corresponding blog post.
