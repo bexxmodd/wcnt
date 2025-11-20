@@ -43,5 +43,4 @@ jobs:
           gh issue create \
             --title "Publish $RELEASE_VERSION release blog post!" \
             --body "$ISSUE_BODY" \
-            --label "release-announcement" \
             --assignee "$ASSIGNEE"
