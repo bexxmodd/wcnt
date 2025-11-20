@@ -38,3 +38,4 @@ bazel-testlogs/
 bazel-genfiles/
 bazel-workspace/
 bazel-*          # Catch Bazel symlinks for output
+test.sh
