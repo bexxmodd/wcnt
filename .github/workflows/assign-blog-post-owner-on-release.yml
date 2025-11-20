@@ -76,8 +76,8 @@ jobs:
           git add .
           git commit -m "chore: Update last assigned owner in team.yml"
 
-      - name: Push changes
+      - name: 4. Push changes
         uses: ad-m/github-push-action@master
         with:
-          branch: ${{ github.ref }}
+          branch: ${{ github.head_ref }}
           force: true
