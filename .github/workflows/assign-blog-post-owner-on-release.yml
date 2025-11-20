@@ -17,35 +17,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 2. Extract Assignee from Nested OWNERS File
-        id: parse_owner
-        run: |
-          # Define the path to your owners file
-          OWNERS_FILE="config/team.yaml"
-          
-          # Use 'yq' to traverse the YAML structure:
-          # .team.blog-post-owners.members[0] gets the first element of the members list.
-          ASSIGNEE=$(yq '.team."blog-post-owners".members[0]' $OWNERS_FILE)
-          
-          # Set the extracted value as an output variable for the next step
-          echo "owner_id=$ASSIGNEE" >> $GITHUB_OUTPUT
-        
-      - name: 3. Create GitHub Issue for New Release
-        uses: github/gh-cli@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          
-          # Assignee is now the result from the 'yq' command
-          args: |
-            issue create \
-            --title "Publish ${{ env.RELEASE_VERSION }} release blog post!" \
-            --body "${{ env.ISSUE_BODY }}" \
-            --assignee ${{ steps.parse_owner.outputs.owner_id }} 
-        
         env:
           RELEASE_VERSION: ${{ github.event.release.tag_name }}
           ISSUE_BODY: |
-            A new version has been released and we need to publish the corresponding blog post
-            
+            A new version has been released and we need to publish the corresponding blog post.
+
             **Tag:** ${{ github.event.release.tag_name }}
             **Release Name:** ${{ github.event.release.name }}
             **Date Created:** ${{ github.event.release.created_at }}
@@ -53,3 +29,17 @@ jobs:
             Please adhere to the k8s [blog post guidelines](https://kubernetes.io/docs/contribute/blog/article-submission/#route-1) when drafting the post.
             
             [View the full release notes here](${{ github.event.release.html_url }})
+
+        run: |
+          # Use yq to traverse the YAML structure and extract the first owner
+          ASSIGNEE=$(yq '.team."blog-post-owners".members[0]' $OWNERS_FILE)
+          
+          echo "Extracted Assignee: $ASSIGNEE"
+          
+          # Use the pre-installed 'gh' CLI to create the issue.
+          # The token is read automatically via the GITHUB_TOKEN environment variable.
+          gh issue create \
+            --title "Publish $RELEASE_VERSION release blog post!" \
+            --body "$ISSUE_BODY" \
+            --label "release-announcement" \
+            --assignee "$ASSIGNEE"
