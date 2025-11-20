@@ -30,7 +30,7 @@ jobs:
           echo "owner_id=$ASSIGNEE" >> $GITHUB_OUTPUT
         
       - name: 3. Create GitHub Issue for New Release
-        uses: cli/cli-action@v2
+        uses: github/gh-cli@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           
