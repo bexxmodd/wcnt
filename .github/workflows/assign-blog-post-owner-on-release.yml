@@ -50,7 +50,7 @@ jobs:
           OWNER_COUNT=${#OWNER_ARRAY[@]}
 
           # 2. Get the last assigned user from the file
-          LAST_ASSIGNEE=$(yq '.team."last-assignee"' $OWNERS_FILE)
+          LAST_ASSIGNEE=$(yq '.team."blog-post-owners".last-assignee' $OWNERS_FILE)
 
           # 3. Determine the index of the next assignee
           NEXT_INDEX=0
@@ -79,7 +79,7 @@ jobs:
             --assignee "$ASSIGNEE"
           
           # 6. Update the team.yml file with the new assignee's name for the next run
-          yq -i '.team."last-assignee" = "'"$ASSIGNEE"'"' $OWNERS_FILE
+          id=$ASSIGNEE yq -i '.team.blog-post-owners.last-assignee = env(id)' $OWNERS_FILE
           echo "Updated $OWNERS_FILE: last-assigned-user is now $ASSIGNEE"
         
       - name: 3. Commit and Push Updated Team File

@@ -1,8 +1,8 @@
 team:
   blog-post-owners:
     members:
-    - bexxmodd
-    - morgott
-    - radagon
-    - malenia
-  last-assignee: ""
+      - bexxmodd
+      - morgott
+      - radagon
+      - malenia
+    last-assignee:
