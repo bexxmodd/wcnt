@@ -81,8 +81,9 @@ jobs:
             --assignee "$ASSIGNEE"
           
           # 6. Update the team.yml file with the new assignee's name for the next run
-          id=$ASSIGNEE yq -i '.team.blog-post-owners.last-assignee = env(id)' $OWNERS_FILE
-          echo "Updated $OWNERS_FILE: last-assigned-user is now $ASSIGNEE"
+          FILE_TO_UPDATE="${{ env.OWNER_FILE }}"
+          id=$ASSIGNEE yq -i '.team.blog-post-owners.last-assignee = env(id)' $FILE_TO_UPDATE
+          echo "Updated $FILE_TO_UPDATE: last-assigned-user is now $ASSIGNEE"
         
       - name: 3. Commit and Push Updated Team File
         run: |
@@ -91,8 +92,8 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git status
-          git add ${{ env.OWNER_FILE }}
-          echo "Staged changes for ${{ env.OWNER_FILE }}:"
+          git add $FILE_TO_COMMIT
+          echo "Staged changes for $FILE_TO_COMMIT"
           git status
           git commit -m "chore: Update last assigned owner in team.yml"
           git push
