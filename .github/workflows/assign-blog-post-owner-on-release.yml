@@ -79,5 +79,5 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          branch: B77 #ignore if your branch is master
+          branch: ${{ github.ref }}
           force: true
