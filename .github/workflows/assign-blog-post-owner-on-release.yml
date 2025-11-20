@@ -14,13 +14,11 @@ jobs:
 
     env:
       OWNER_FILE: config/team.yml
+      GH_TOKEN: ${{ github.token }}
 
     steps:
       - name: 1. Checkout repository code
         uses: actions/checkout@v4
-
-        with:
-          token: ${{ github.token }}
 
       - name: 2. Extract Assignee from Nested OWNERS File
         env:
