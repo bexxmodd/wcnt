@@ -84,8 +84,12 @@ jobs:
         
       - name: 3. Commit and Push Updated Team File
         run: |
+          echo "Pushing changes to $OWNERS_FILE back to repository..."
           git config user.name github-actions
           git config user.email github-actions@github.com
+          git status
           git add $OWNERS_FILE
+          echo "Staged changes for $OWNERS_FILE"
+          git status
           git commit -m "chore: Update last assigned owner in team.yml"
           git push
