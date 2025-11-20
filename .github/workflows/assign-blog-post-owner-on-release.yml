@@ -74,5 +74,9 @@ jobs:
           git config user.email github-actions@github.com
           git add .
           git commit -m "chore: Update last assigned owner in team.yml"
-          git fetch origin master
-          git push origin HEAD:master
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: B77 #ignore if your branch is master
+          force: true
