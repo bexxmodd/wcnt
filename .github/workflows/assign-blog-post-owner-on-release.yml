@@ -13,12 +13,14 @@ jobs:
       issues: write
 
     env:
-      GH_TOKEN: ${{ github.token }}
-      OWNERS_FILE: config/team.yml
+      OWNER_FILE: config/team.yml
 
     steps:
       - name: 1. Checkout repository code
         uses: actions/checkout@v4
+
+        with:
+          token: ${{ github.token }}
 
       - name: 2. Extract Assignee from Nested OWNERS File
         env:
@@ -47,12 +49,12 @@ jobs:
         run: |
           # --- A. INITIAL SETUP & PARSING ---
           # 1. Get the list of owners (newline-separated string)
-          OWNERS=$(yq '.team."blog-post-owners".members[]' $OWNERS_FILE)
+          OWNERS=$(yq '.team."blog-post-owners".members[]' ${{ env.OWNER_FILE }})
           OWNER_ARRAY=($OWNERS)
           OWNER_COUNT=${#OWNER_ARRAY[@]}
 
           # 2. Get the last assigned user from the file
-          LAST_ASSIGNEE=$(yq '.team."blog-post-owners".last-assignee' $OWNERS_FILE)
+          LAST_ASSIGNEE=$(yq '.team."blog-post-owners".last-assignee' ${{ env.OWNER_FILE }})
 
           # 3. Determine the index of the next assignee
           NEXT_INDEX=0
@@ -86,12 +88,13 @@ jobs:
         
       - name: 3. Commit and Push Updated Team File
         run: |
-          echo "Pushing changes to $OWNERS_FILE back to repository..."
+          FILE_TO_COMMIT="${{ env.OWNER_FILE }}"
+          echo "Pushing changes to $FILE_TO_COMMIT back to repository..."
           git config user.name github-actions
           git config user.email github-actions@github.com
           git status
-          git add $OWNERS_FILE
-          echo "Staged changes for $OWNERS_FILE"
+          git add ${{ env.OWNER_FILE }}
+          echo "Staged changes for ${{ env.OWNER_FILE }}:"
           git status
           git commit -m "chore: Update last assigned owner in team.yml"
           git push
