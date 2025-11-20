@@ -87,13 +87,8 @@ jobs:
         
       - name: 3. Commit and Push Updated Team File
         run: |
-          FILE_TO_COMMIT="${{ env.OWNER_FILE }}"
-          echo "Pushing changes to $FILE_TO_COMMIT back to repository..."
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git status
-          git add $FILE_TO_COMMIT
-          echo "Staged changes for $FILE_TO_COMMIT"
-          git status
+          git add .
           git commit -m "chore: Update last assigned owner in team.yml"
           git push
