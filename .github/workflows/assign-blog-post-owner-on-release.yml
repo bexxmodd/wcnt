@@ -12,14 +12,16 @@ jobs:
       contents: read
       issues: write
 
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OWNERS_FILE: config/team.yml
+
     steps:
       - name: 1. Checkout repository code
         uses: actions/checkout@v4
 
       - name: 2. Extract Assignee from Nested OWNERS File
         env:
-          GH_TOKEN: ${{ github.token }}
-          OWNERS_FILE: config/team.yml
           RELEASE_VERSION: ${{ github.event.release.tag_name }}
           ISSUE_BODY: |
             A new Gateway API version for standard channel has been released 
